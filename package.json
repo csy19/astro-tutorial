@@ -10,6 +10,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.0.18"
+    "@prisma/client": "^4.11.0",
+    "astro": "^2.0.18",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "prisma": "^4.11.0"
   }
 }
