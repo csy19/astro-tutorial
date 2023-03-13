@@ -1,19 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
+// import { getCollection } from 'astro:content';
+import Todos from '../components/todos';
 
-const blogs = await getCollection('note');
+// const blogs = await getCollection('note');
 ---
 
 <Layout title="top">
-  <h1>ブログ記事一覧</h1>
+  <!-- <h2>TODO一覧</h2> -->
+  <Todos client:load />
+
+  <!-- <h2>ブログ記事一覧</h2>
   <ul>
     {
       blogs.map((blog) => (
         <li>
-          <a href={`/blog/${blog.slug}`}>{blog.data.title}</a>
+          <a href={`/note/${blog.slug}`}>{blog.data.title}</a>
         </li>
       ))
     }
-  </ul>
+  </ul> -->
 </Layout>

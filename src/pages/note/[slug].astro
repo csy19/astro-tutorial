@@ -27,7 +27,14 @@ const { slug } = Astro.params;
 
 const note = await getEntryBySlug('note', slug!);
 
+if (!note) {
+  return Astro.redirect('/404');
+}
+
 const { Content } = await note.render();
+
+// trueでSSGにできる
+// export const prerender = true;
 ---
 
 <Layout title={note.data.title}>

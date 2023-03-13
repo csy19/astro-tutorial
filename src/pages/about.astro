@@ -1,9 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Counter from '../components/counter';
+import CounterVue from '../components/CounterVue.vue';
 import logo from '../images/astro-logo-dark.png';
 ---
 
 <Layout title="About Page">
   <h1 id="p-about--title">わあい</h1>
+  <Counter client:load />
+  <CounterVue client:load />
   <img src={logo} alt="" />
 </Layout>
