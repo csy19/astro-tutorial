@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const blogs = await getCollection('note');
+---
+
+<Layout title="top">
+  <h1>ブログ記事一覧</h1>
+  <ul>
+    {
+      blogs.map((blog) => (
+        <li>
+          <a href={`/blog/${blog.slug}`}>{blog.data.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

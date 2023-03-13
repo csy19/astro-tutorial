@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import { CollectionEntry, getCollection } from 'astro:content';
 import type { GetStaticPathsOptions, Page } from 'astro';
 
+import { prisma } from '../lib/db';
+
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
   const notes = await getCollection('note');
   return paginate(notes, { pageSize: 2 });
@@ -13,11 +15,17 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const todos = await prisma.todo.findMany();
 ---
 
 <Layout title="Welcome to Astro.">
   <main>
-    <h1>Welcome to <span class="text-gradient">Astro</span></h1>
+    <h2>Todo一覧</h2>
+    <ul>
+      {todos.map((todo) => <li>{todo.name}</li>)}
+    </ul>
+
+    <h2>note</h2>
     <ul>
       {
         page.data.map((note) => (

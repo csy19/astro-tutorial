@@ -1,23 +1,32 @@
 ---
-import { CollectionEntry, getCollection } from 'astro:content';
+//* SSG使用時
+// import { CollectionEntry, getCollection } from 'astro:content';
+
+// export async function getStaticPaths() {
+//   const notes = await getCollection('note');
+
+//   return notes.map((note) => {
+//     return {
+//       params: { slug: note.slug },
+//       props: { note },
+//     };
+//   });
+// }
+// interface Props {
+//   note: CollectionEntry<'note'>;
+// }
+
+// const { note } = Astro.props;
+// const { Content } = await note.render();
+
+//* SSR使用時
+import { getEntryBySlug } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-export async function getStaticPaths() {
-  const notes = await getCollection('note');
+const { slug } = Astro.params;
 
-  return notes.map((note) => {
-    return {
-      params: { slug: note.slug },
-      props: { note },
-    };
-  });
-}
+const note = await getEntryBySlug('note', slug!);
 
-interface Props {
-  note: CollectionEntry<'note'>;
-}
-
-const { note } = Astro.props;
 const { Content } = await note.render();
 ---
 
