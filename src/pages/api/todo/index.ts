@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { prisma } from '../../lib/db';
+import { prisma } from '../../../lib/db';
 
 export const get: APIRoute = async () => {
   const todos = await prisma.todo.findMany();
@@ -24,13 +24,5 @@ export const post: APIRoute = async ({ request }) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
-};
-
-export const del: APIRoute = async ({ params }) => {
-  const id = Number(params.id);
-  await prisma.todo.delete({ where: { id } });
-  return new Response(null, {
-    status: 200,
   });
 };

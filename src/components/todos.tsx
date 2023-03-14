@@ -5,7 +5,7 @@ const Todos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const getTodos = async () => {
-    const response = await fetch('/api/todos');
+    const response = await fetch('/api/todo');
     const data = await response.json();
     setTodos(data);
   };
@@ -22,7 +22,7 @@ const Todos = () => {
 
     if (event.key === 'Enter' && name) {
       console.log(name);
-      await fetch('/api/todos', {
+      await fetch('/api/todo', {
         method: 'POST',
         headers: {
           'Content-Type': 'appication/json',
@@ -35,11 +35,20 @@ const Todos = () => {
   };
 
   const handleDelete = async (id: number) => {
-    //TODO: DELETEが動かない
-    await fetch(`/api/todos?id=${id}`, {
+    await fetch(`/api/todo/${id}`, {
       method: 'DELETE',
     });
-    console.log(id);
+    getTodos();
+  };
+
+  const handleChange = async (id: number, isComplete: boolean) => {
+    await fetch(`/api/todo/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'appication/json',
+      },
+      body: JSON.stringify({ isComplete: !isComplete }),
+    });
     getTodos();
   };
 
@@ -48,7 +57,17 @@ const Todos = () => {
       <h2>Todo一覧</h2>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
+          <li
+            key={todo.id}
+            style={{
+              textDecorationLine: todo.isComplete ? 'line-through' : '',
+            }}
+          >
+            <input
+              type="checkbox"
+              onChange={() => handleChange(todo.id, todo.isComplete)}
+              defaultChecked={todo.isComplete}
+            />
             {todo.name}
             <span
               style={{ paddingLeft: '0.5em', cursor: 'pointer' }}
