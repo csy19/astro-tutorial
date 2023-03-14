@@ -5,7 +5,7 @@ const Todos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const getTodos = async () => {
-    const response = await fetch('http://localhost:3000/api/todo');
+    const response = await fetch('http://localhost:3000/api/todos');
     const data = await response.json();
     setTodos(data);
   };
@@ -22,6 +22,15 @@ const Todos = () => {
 
     if (event.key === 'Enter' && name) {
       console.log(name);
+      await fetch('http://localhost:3000/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'appication/json',
+        },
+        body: JSON.stringify({ name }),
+      });
+      target.value = '';
+      getTodos();
     }
   };
 
@@ -33,6 +42,14 @@ const Todos = () => {
           <li key={todo.id}>{todo.name}</li>
         ))}
       </ul>
+      {/* <form action="" method="post"> */}
+      <input
+        type="text"
+        onKeyDown={handleKeyDown}
+        placeholder="ToDoを追加する"
+      />
+      {/* <button>enter</button> */}
+      {/* </form> */}
     </>
   );
 };
