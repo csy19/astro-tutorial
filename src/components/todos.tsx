@@ -5,7 +5,7 @@ const Todos = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const getTodos = async () => {
-    const response = await fetch('http://localhost:3000/api/todos');
+    const response = await fetch('/api/todos');
     const data = await response.json();
     setTodos(data);
   };
@@ -22,7 +22,7 @@ const Todos = () => {
 
     if (event.key === 'Enter' && name) {
       console.log(name);
-      await fetch('http://localhost:3000/api/todos', {
+      await fetch('/api/todos', {
         method: 'POST',
         headers: {
           'Content-Type': 'appication/json',
@@ -34,12 +34,29 @@ const Todos = () => {
     }
   };
 
+  const handleDelete = async (id: number) => {
+    //TODO: DELETEが動かない
+    await fetch(`/api/todos?id=${id}`, {
+      method: 'DELETE',
+    });
+    console.log(id);
+    getTodos();
+  };
+
   return (
     <>
       <h2>Todo一覧</h2>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.name}</li>
+          <li key={todo.id}>
+            {todo.name}
+            <span
+              style={{ paddingLeft: '0.5em', cursor: 'pointer' }}
+              onClick={() => handleDelete(todo.id)}
+            >
+              X
+            </span>
+          </li>
         ))}
       </ul>
       {/* <form action="" method="post"> */}

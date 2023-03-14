@@ -26,3 +26,11 @@ export const post: APIRoute = async ({ request }) => {
     },
   });
 };
+
+export const del: APIRoute = async ({ params }) => {
+  const id = Number(params.id);
+  await prisma.todo.delete({ where: { id } });
+  return new Response(null, {
+    status: 200,
+  });
+};
